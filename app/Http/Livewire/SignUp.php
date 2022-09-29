@@ -11,7 +11,7 @@ class SignUp extends Component
     public $password;
 
     public function createAccount() {
-        
+        echo "test";
     }
 
     public function render()
