@@ -29,17 +29,18 @@
         }
     </script>
     <title>Chat App</title>
-    @livewireStyles
 </head>
 <body>
     <div>
         <a href="/"><img src="{{asset("images/logo.png")}}" alt="" width="150" height="150" class="absolute
         top-5 left-5"></a>
     </div>
+    @yield('signup')
+    @yield('login')
 
-    {{ $slot }}
+
+
 
     <script src="https://kit.fontawesome.com/dce035b76e.js" crossorigin="anonymous"></script>
-    @livewireScripts
 </body>
 </html>

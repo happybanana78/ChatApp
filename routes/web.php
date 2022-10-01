@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Http\Livewire\Chat;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('layouts.app');
-});
+    return view('users.sign-up');
+})->middleware("guest");
+
+Route::get('/login', function () {
+    return view('users.login');
+})->middleware("guest")->name("login");
+
+Route::get('/control', Chat::class)->middleware("auth");
+
+Route::post("/create", [UserController::class, "createAccount"])->middleware("guest");
+
+Route::post("/signin", [UserController::class, "login"])->middleware("guest");
