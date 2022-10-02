@@ -1,12 +1,15 @@
 <div id="main">
     <div class="container absolute left-1/2 py-10 -translate-x-1/2 top-12
-text-light text-3xl text-center space-x-10 font-bold">
+text-light text-3xl justify-center space-x-10 font-bold flex">
     <a class="hover:text-blue-500" href="#">
         <i class="fa-solid fa-comments mr-3"></i>Chat</a>
     <a class="hover:text-blue-500" href="#">
         <i class="fa-solid fa-gear mr-3"></i>Settings</a>
-    <a class="hover:text-red-500" href="#" wire:click="logout">
-        <i class="fa-solid fa-right-from-bracket mr-3"></i>Logout</a>
+    <form action="/logout" method="POST">
+        @csrf
+        <button type="submit" class="hover:text-red-500">
+            <i class="fa-solid fa-right-from-bracket mr-3"></i>Logout</button>
+    </form>
 </div>
 <script>
     function test() {

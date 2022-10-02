@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-
+    // Create new user account
     public function createAccount(Request $request) {
         $data = $request->validate([
                     "email" => ["required", "unique:users,email"],
@@ -23,7 +23,23 @@ class UserController extends Controller
         return redirect()->to("/login");
     }
 
+    // Login user
     public function login(Request $request) {
-        
+        $data = $request->validate([
+            "username" => "required",
+            "password" => "required"
+        ]);
+        if (auth()->attempt($data)) {
+            $request->session()->regenerate();
+            return redirect()->to("/control");
+        }
+    }
+
+    // Logout user
+    public function logout(Request $request) {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->to("/login");
     }
 }

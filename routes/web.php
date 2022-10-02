@@ -28,3 +28,5 @@ Route::get('/control', Chat::class)->middleware("auth");
 Route::post("/create", [UserController::class, "createAccount"])->middleware("guest");
 
 Route::post("/signin", [UserController::class, "login"])->middleware("guest");
+
+Route::post("/logout", [UserController::class, "logout"])->middleware("auth");
