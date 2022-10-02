@@ -6,14 +6,24 @@ p-5" x-show="chat">
         <a class="cursor-pointer text-light" x-on:click="chat = false, popBg = false">
             <i class="fa-solid fa-xmark"></i></a>
     </div>
-    <div class="flex justify-between px-20 items-center">
+    <div class="flex justify-between px-20 items-center" 
+    x-data="{createRoom1: true, createRoom2: false}">
         <div class="container bg-light overflow-auto h-56 w-1/2 rounded-lg"></div>
-        <div>
-            <form wire:submit.prevent="createRoom" method="POST">
+        <div x-show="createRoom1">
+            <button class="px-5 py-3 text-2xl bg-blue-500 text-white
+            rounded-lg hover:border-2 hover:border-white border-2
+            border-slate-900"
+            x-on:click="createRoom1 = !createRoom1, createRoom2 = !createRoom2">Create New Room</button>
+        </div>
+        <div class="container w-1/2 px-20" x-show="createRoom2">
+            <form wire:submit.prevent="createRoom" method="POST" class="flex flex-col
+            justify-center items-center space-y-3">
                 @csrf
-                <button class="px-5 py-3 text-2xl bg-blue-500 text-white
+                <input class="w-full px-3 py-1 rounded-lg text-xl" type="text"
+                placeholder="Room Name" wire:model="roomName">
+                <button class="px-3 py-1 text-xl bg-blue-500 text-white
                 rounded-lg hover:border-2 hover:border-white border-2
-                border-slate-900">Create New Room</button>
+                border-slate-900">Create</button>
             </form>
         </div>
     </div>
