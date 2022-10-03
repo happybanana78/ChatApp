@@ -1,7 +1,9 @@
 <div x-data="{popBg: false, chat: false}" id="main">
     <div class="container absolute left-1/2 py-10 -translate-x-1/2 top-12
-text-light text-3xl justify-center space-x-10 font-bold flex">
-        <a class="hover:text-blue-500 cursor-pointer" x-on:click="chat = !chat, popBg = !popBg">
+    text-light text-3xl justify-center space-x-10 font-bold flex">
+        <a class="hover:text-blue-500 cursor-pointer" 
+        x-on:click="chat = !chat, popBg = !popBg, 
+        document.getElementById('body').classList.add('hide-scroll')">
             <i class="fa-solid fa-comments mr-3"></i>Chat</a>
         <a class="hover:text-blue-500" href="#">
             <i class="fa-solid fa-gear mr-3"></i>Settings</a>
@@ -18,7 +20,7 @@ text-light text-3xl justify-center space-x-10 font-bold flex">
     }
 </script>
 @include('partials._chat')
-<div class="container rounded-lg mx-auto p-20 w-full bg-slate-900 mt-60">
+<div class="container rounded-lg mx-auto p-20 w-full bg-slate-900 mt-52">
     <div id="test" class="container mx-auto w-full p-5 h-56 bg-white rounded-lg
     overflow-auto text-xl">
         @foreach ($chat as $message)

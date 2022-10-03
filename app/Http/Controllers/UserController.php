@@ -20,7 +20,7 @@ class UserController extends Controller
             "password" => password_hash($data["password"], PASSWORD_DEFAULT)
         ]);
         auth()->login($user);
-        return redirect()->to("/login");
+        return redirect()->to("/");
     }
 
     // Login user
@@ -32,6 +32,9 @@ class UserController extends Controller
         if (auth()->attempt($data)) {
             $request->session()->regenerate();
             return redirect()->to("/control");
+        } else {
+            $request->session()->regenerate();
+            return redirect()->to("/");
         }
     }
 
@@ -40,6 +43,6 @@ class UserController extends Controller
         auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->to("/login");
+        return redirect()->to("/");
     }
 }

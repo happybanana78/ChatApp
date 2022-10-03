@@ -26,7 +26,11 @@
                 <p class="text-red-500 text-xl mt-2">{{$message}}</p>
             @enderror
         </div>
-        <div class="text-right mt-10">
+        <div>
+            <a class="text-blue-500 text-lg hover:text-blue-300"
+            href="/signup">Create Account...</a>
+        </div>
+        <div class="text-right mt-3">
             <button class="p-3 px-8 bg-blue-900 text-white rounded-md text-xl
             hover:border-2 hover:border-white border-2 border-slate-900">Login</button>
         </div>

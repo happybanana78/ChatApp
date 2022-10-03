@@ -31,7 +31,7 @@
     <title>Chat App</title>
     @livewireStyles
 </head>
-<body>
+<body id="body">
     <div>
         <a href="/"><img src="{{asset("images/logo.png")}}" alt="" width="150" height="150" class="absolute
         top-5 left-5"></a>

@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('users.sign-up');
-})->middleware("guest");
-
-Route::get('/login', function () {
     return view('users.login');
 })->middleware("guest")->name("login");
+
+Route::get('/signup', function () {
+    return view('users.sign-up');
+})->middleware("guest");
 
 Route::get('/control', Chat::class)->middleware("auth");
 
