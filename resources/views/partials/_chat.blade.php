@@ -21,9 +21,8 @@ class="absolute pop-bg w-full left-0 right-0 top-0 h-screen"></div>
                         <div class="flex flex-row space-x-3 items-center">
                             <p class="cursor-pointer bg-blue-500 py-1
                             px-3 rounded-lg w-full" 
-                            wire:click="joinRoom('{{$room->name}}', 
-                            {{auth()->user()->id}}, {{$room->id}})"
-                            x-on:click="chat = false, popBg = false">{{$room->name}}</p>
+                            wire:click="joinRoom({{auth()->user()->id}}, {{$room->id}})"
+                            x-on:click="chat = false, popBg = false ">{{$room->name}}</p>
                             <form wire:submit.prevent="deleteRoom({{$room->id}})" method="POST">
                                 <button type="submit" class="px-3 py-1 text-white bg-red-500
                                 rounded-lg hover:bg-red-600">

@@ -27,7 +27,8 @@
             <p class=""><b>{{auth()->user()->username}}: </b>{{$message}}</p>
         @endforeach
     </div>
-    <form wire:submit.prevent="newEntry" class="flex space-x-3" method="POST" onkeydown="test()">
+    <form wire:submit.prevent="newEntry({{auth()->user()->id}})" 
+        class="flex space-x-3" method="POST" onkeydown="test()">
         @if (!$isActive)
         <input wire:model="entry" class="p-1 px-3 w-full rounded-lg mt-2" type="text"
         placeholder="Write a message..." disabled>

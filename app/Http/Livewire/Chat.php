@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Rooms;
 use App\Models\User;
+use App\Models\Chats;
 use Livewire\Component;
 
 class Chat extends Component
@@ -28,9 +29,15 @@ class Chat extends Component
     }
 
     // Show new chat entry on screen
-    public function newEntry() {
+    public function newEntry($userId) {
         if (!empty($this->entry)) {
             array_push($this->chat, $this->entry);
+            $user = User::find($userId);
+            Chats::create([
+                "message" => $this->entry,
+                "userId" => $userId,
+                "roomId" => $user->groups
+            ]);
             $this->entry = "";
         }
     }
@@ -51,9 +58,9 @@ class Chat extends Component
     }
 
     // Join chat room
-    public function joinRoom($room, $userId, $roomId) {
+    public function joinRoom($userId, $roomId) {
         $user = User::find($userId);
-        $user->groups = $user->groups . "," . $room;
+        $user->groups = $roomId;
         $user->update();
         $group = Rooms::find($roomId);
         $group->users = $group->users . "," . $userId;
