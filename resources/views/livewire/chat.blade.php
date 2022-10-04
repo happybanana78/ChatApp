@@ -28,9 +28,19 @@
         @endforeach
     </div>
     <form wire:submit.prevent="newEntry" class="flex space-x-3" method="POST" onkeydown="test()">
-        <input wire:model="entry" class="p-1 px-3 w-full rounded-lg mt-2" type="text">
-        <button class="text-4xl text-slate-900 bg-blue-500 py-1 px-5
-        rounded-lg mt-2"><i class="fa-solid fa-paper-plane hover:text-light" onclick="test()"></i></button>
+        @if (!$isActive)
+        <input wire:model="entry" class="p-1 px-3 w-full rounded-lg mt-2" type="text"
+        placeholder="Write a message..." disabled>
+        <button type="button" class="text-4xl text-slate-900 bg-blue-500 py-1 px-5
+        rounded-lg mt-2" x-on:click="chat = !chat, popBg = !popBg">
+        <i class="fa-solid fa-paper-plane hover:text-light" onclick="test()"></i></button>
+        @endif
+        @if ($isActive)
+            <input wire:model="entry" class="p-1 px-3 w-full rounded-lg mt-2" type="text"
+            placeholder="Write a message...">
+            <button type="submit" class="text-4xl text-slate-900 bg-blue-500 py-1 px-5
+            rounded-lg mt-2"><i class="fa-solid fa-paper-plane hover:text-light" onclick="test()"></i></button>
+        @endif
     </form>
 </div>
 </div>

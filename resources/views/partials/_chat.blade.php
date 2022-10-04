@@ -14,10 +14,23 @@ class="absolute pop-bg w-full left-0 right-0 top-0 h-screen"></div>
         <div class="flex justify-between px-10 items-center mt-5 space-x-5 relative
         pb-5" 
         x-data="{createRoom1: true, createRoom2: false}">
-            <div class="bg-light relative overflow-auto h-40 w-1/2 rounded-lg p-5
+            <div class="bg-slate-700 relative overflow-auto h-40 w-1/2 rounded-lg p-5
             flex flex-col">
                 @foreach ($rooms as $room)
-                    {{$room->name}}
+                    <div class="text-slate-900 text-xl flex flex-col mb-5">
+                        <div class="flex flex-row space-x-3 items-center">
+                            <p class="cursor-pointer bg-blue-500 py-1
+                            px-3 rounded-lg w-full" 
+                            wire:click="joinRoom('{{$room->name}}', 
+                            {{auth()->user()->id}}, {{$room->id}})"
+                            x-on:click="chat = false, popBg = false">{{$room->name}}</p>
+                            <form wire:submit.prevent="deleteRoom({{$room->id}})" method="POST">
+                                <button type="submit" class="px-3 py-1 text-white bg-red-500
+                                rounded-lg hover:bg-red-600">
+                                    <i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        </div>
+                    </div>
                 @endforeach
             </div>
             <div x-show="createRoom1">
@@ -30,6 +43,16 @@ class="absolute pop-bg w-full left-0 right-0 top-0 h-screen"></div>
                 <form wire:submit.prevent="createRoom" method="POST" class="flex flex-col
                 justify-center items-center space-y-3">
                     @csrf
+                    @error('roomName')
+                    <div class="text-center">
+                        <h2 class="text-red-500">{{$message}}</h2>
+                    </div>
+                    @enderror
+                    @error('roomCapacity')
+                    <div class="text-center">
+                        <h2 class="text-red-500">{{$message}}</h2>
+                    </div>
+                    @enderror
                     <div class="flex space-x-3">
                         <input class="w-full px-3 py-1 rounded-lg text-xl" type="text"
                         placeholder="Room Name" wire:model="roomName">

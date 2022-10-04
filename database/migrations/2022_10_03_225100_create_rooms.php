@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer("capacity");
             $table->string('name')->unique();
             $table->integer("Authority")->default("0");
+            $table->string("users")->nullable();
             $table->timestamps();
         });
     }
