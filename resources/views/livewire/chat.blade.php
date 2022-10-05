@@ -23,6 +23,13 @@
 <div class="container rounded-lg mx-auto p-20 w-full bg-slate-900 mt-52">
     <div id="test" class="container mx-auto w-full p-5 h-56 bg-white rounded-lg
     overflow-auto text-xl">
+        @if (auth()->user()->groups != NULL)
+            @if ($roomStatus)
+                @foreach ($roomMsg as $msg)
+                    <p class=""><b>{{$msg["userName"]}}: </b>{{$msg["message"]}}</p>
+                @endforeach
+            @endif
+        @endif
         @foreach ($chat as $message)
             <p class=""><b>{{auth()->user()->username}}: </b>{{$message}}</p>
         @endforeach

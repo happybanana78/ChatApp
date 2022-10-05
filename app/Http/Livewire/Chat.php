@@ -21,11 +21,17 @@ class Chat extends Component
     public $rooms;
     public $test;
 
+    // User proprieties
+    public $roomMsg;
+    public $userName;
+    public $roomStatus;
+
     public function __construct()
     {
         $this->chat = array();
         $this->rooms = Rooms::latest()->get();
         $this->isActive = false;
+        $this->roomStatus = false;
     }
 
     // Show new chat entry on screen
@@ -36,6 +42,7 @@ class Chat extends Component
             Chats::create([
                 "message" => $this->entry,
                 "userId" => $userId,
+                "userName" => $user->username,
                 "roomId" => $user->groups
             ]);
             $this->entry = "";
@@ -66,13 +73,27 @@ class Chat extends Component
         $group->users = $group->users . "," . $userId;
         $group->update();
         $this->isActive = true;
-        //$this->test = $user;
+        $this->roomStatus = true;
+        $this->roomMsg = Chats::where("roomId", "=", $roomId)->get();
+        //dd($this->roomMsg[1]["message"]);
     }
 
     // Delete chat room
     public function deleteRoom($id) {
         $room = Rooms::find($id);
         $room->delete();
+        $users = User::all();
+        foreach ($users as $user) {
+            if ($user->groups == $id) {
+                $user->groups = null;
+                $this->isActive = false;
+            }
+        }
+        $user->update();
+        $chat = Chats::where("roomId", "=", $id);
+        $chat->delete();
+        $this->roomMsg = array();
+        $this->chat = array();
         $this->rooms = Rooms::latest()->get();
     }
 
