@@ -64,6 +64,11 @@ class Chat extends Component
         $this->rooms = Rooms::latest()->get();
     }
 
+    public function updateMsg($roomId) {
+        $this->roomMsg = array();
+        $this->roomMsg = Chats::where("roomId", "=", $roomId)->orderBy("id")->get();
+    }
+
     // Join chat room
     public function joinRoom($userId, $roomId) {
         $user = User::find($userId);

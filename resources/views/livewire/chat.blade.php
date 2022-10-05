@@ -14,15 +14,21 @@
         </form>
     </div>
 <script>
-    function test() {
-        var test = document.getElementById("test");
-        test.scrollTop = test.scrollHeight;
+    function scroll1() {
+        var chatBox = document.getElementById("chatBox");
+        chatBox.scrollTop = chatBox.scrollHeight - chatBox.clientHeight;
+    }
+    function scroll2() {
+        var chatBoxBtn = document.getElementById("chatBoxBtn");
+        setTimeout(function(){chatBoxBtn.click()}, 1000);
     }
 </script>
 @include('partials._chat')
+<button id="chatBoxBtn" class="hidden" onclick="scroll1()"></button>
 <div class="container rounded-lg mx-auto p-20 w-full bg-slate-900 mt-52">
-    <div id="test" class="container mx-auto w-full p-5 h-56 bg-white rounded-lg
-    overflow-auto text-xl">
+    <div wire:poll="updateMsg({{auth()->user()->groups}})" id="chatBox" 
+        class="container mx-auto w-full p-5 h-56 bg-white rounded-lg
+        overflow-auto text-xl">
         @if (auth()->user()->groups != NULL)
             @if ($roomStatus)
                 @foreach ($roomMsg as $msg)
@@ -30,24 +36,21 @@
                 @endforeach
             @endif
         @endif
-        @foreach ($chat as $message)
-            <p class=""><b>{{auth()->user()->username}}: </b>{{$message}}</p>
-        @endforeach
     </div>
     <form wire:submit.prevent="newEntry({{auth()->user()->id}})" 
-        class="flex space-x-3" method="POST" onkeydown="test()">
+        class="flex space-x-3" method="POST" onkeydown="scroll1()">
         @if (!$isActive)
         <input wire:model="entry" class="p-1 px-3 w-full rounded-lg mt-2" type="text"
         placeholder="Write a message..." disabled>
         <button type="button" class="text-4xl text-slate-900 bg-blue-500 py-1 px-5
         rounded-lg mt-2" x-on:click="chat = !chat, popBg = !popBg">
-        <i class="fa-solid fa-paper-plane hover:text-light" onclick="test()"></i></button>
+        <i class="fa-solid fa-paper-plane hover:text-light" onclick="scroll1()"></i></button>
         @endif
         @if ($isActive)
             <input wire:model="entry" class="p-1 px-3 w-full rounded-lg mt-2" type="text"
             placeholder="Write a message...">
             <button type="submit" class="text-4xl text-slate-900 bg-blue-500 py-1 px-5
-            rounded-lg mt-2"><i class="fa-solid fa-paper-plane hover:text-light" onclick="test()"></i></button>
+            rounded-lg mt-2"><i class="fa-solid fa-paper-plane hover:text-light" onclick="scroll1()"></i></button>
         @endif
     </form>
 </div>
