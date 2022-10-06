@@ -20,37 +20,53 @@
     }
     function scroll2() {
         var chatBoxBtn = document.getElementById("chatBoxBtn");
-        setTimeout(function(){chatBoxBtn.click()}, 1000);
+        setTimeout(function(){chatBoxBtn.click()}, 750);
     }
 </script>
 @include('partials._chat')
 <button id="chatBoxBtn" class="hidden" onclick="scroll1()"></button>
 <div class="container rounded-lg mx-auto p-20 w-full bg-slate-900 mt-52">
-    <div wire:poll="updateMsg({{auth()->user()->groups}})" id="chatBox" 
-        class="container mx-auto w-full p-5 h-56 bg-white rounded-lg
-        overflow-auto text-xl">
+    @php
+        // Prevent error when user logs in with no room id aggigned yet
+        $group = 0;
+    @endphp
+    @if (auth()->user()->groups != NULL)
+        @php
+            $group = auth()->user()->groups;
+        @endphp
+    @endif
+    <div wire:poll.750ms.keep-alive="updateMsg({{$group}})" id="chatBox" 
+        class="container mx-auto w-full p-5 pr-10 h-56 bg-white rounded-lg
+        overflow-y-auto overflow-x-hidden text-xl">
         @if (auth()->user()->groups != NULL)
             @if ($roomStatus)
                 @foreach ($roomMsg as $msg)
-                    <p class=""><b>{{$msg["userName"]}}: </b>{{$msg["message"]}}</p>
+                    <div class="flex justify-between">
+                        <p style="overflow-wrap: break-word; inline-size: fit-content;" 
+                        class="max-w-full mb-2 pr-5"><b>{{$msg["userName"]}}: </b>{{$msg["message"]}}</p>
+                        <div class="" wire:click="deleteMsg({{$msg["id"]}}, {{auth()->user()->id}}, {{$msg["RoomId"]}})">
+                            <i class="fa-solid fa-trash"></i>
+                        </div>
+                    </div>
                 @endforeach
             @endif
         @endif
     </div>
     <form wire:submit.prevent="newEntry({{auth()->user()->id}})" 
-        class="flex space-x-3" method="POST" onkeydown="scroll1()">
+        class="flex" method="POST" onkeydown="scroll2()">
+        @csrf
         @if (!$isActive)
-        <input wire:model="entry" class="p-1 px-3 w-full rounded-lg mt-2" type="text"
+        <input wire:model.defer="entry" class="p-1 px-3 w-full rounded-lg mt-2" type="text"
         placeholder="Write a message..." disabled>
         <button type="button" class="text-4xl text-slate-900 bg-blue-500 py-1 px-5
-        rounded-lg mt-2" x-on:click="chat = !chat, popBg = !popBg">
-        <i class="fa-solid fa-paper-plane hover:text-light" onclick="scroll1()"></i></button>
+        rounded-lg mt-2 ml-3" x-on:click="chat = !chat, popBg = !popBg">
+        <i class="fa-solid fa-paper-plane hover:text-light" onclick="scroll2()"></i></button>
         @endif
         @if ($isActive)
-            <input wire:model="entry" class="p-1 px-3 w-full rounded-lg mt-2" type="text"
+            <input wire:model.defer="entry" class="p-1 px-3 w-full rounded-lg mt-2" type="text"
             placeholder="Write a message...">
             <button type="submit" class="text-4xl text-slate-900 bg-blue-500 py-1 px-5
-            rounded-lg mt-2"><i class="fa-solid fa-paper-plane hover:text-light" onclick="scroll1()"></i></button>
+            rounded-lg mt-2 ml-3"><i class="fa-solid fa-paper-plane hover:text-light" onclick="scroll2()"></i></button>
         @endif
     </form>
 </div>

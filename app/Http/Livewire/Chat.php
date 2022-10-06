@@ -14,17 +14,16 @@ class Chat extends Component
     public $entry;
     public $chat;
     public $isActive;
+    public $roomMsg;
+    public $roomStatus;
 
     // Create chat room proprieties
     public $roomName;
     public $roomCapacity;
     public $rooms;
-    public $test;
 
     // User proprieties
-    public $roomMsg;
     public $userName;
-    public $roomStatus;
 
     public function __construct()
     {
@@ -50,23 +49,28 @@ class Chat extends Component
     }
 
     // Create new chat room
-    public function createRoom() {
+    public function createRoom($userId) {
         $data = $this->validate([
                 "roomName" => ["required", "unique:rooms,name"],
                 "roomCapacity" => "required|numeric|min:2|max:100"
             ]);
         Rooms::create([
             "name" => $data["roomName"],
-            "capacity" => $data["roomCapacity"]
+            "capacity" => $data["roomCapacity"],
+            "Authority" => $userId
         ]);
+         
         $this->roomName = "";
         $this->roomCapacity = "";
         $this->rooms = Rooms::latest()->get();
     }
 
+    // Live update of the chat room
     public function updateMsg($roomId) {
+        if ($roomId != 0) {
         $this->roomMsg = array();
         $this->roomMsg = Chats::where("roomId", "=", $roomId)->orderBy("id")->get();
+        }
     }
 
     // Join chat room
@@ -80,7 +84,6 @@ class Chat extends Component
         $this->isActive = true;
         $this->roomStatus = true;
         $this->roomMsg = Chats::where("roomId", "=", $roomId)->get();
-        //dd($this->roomMsg[1]["message"]);
     }
 
     // Delete chat room
@@ -100,6 +103,18 @@ class Chat extends Component
         $this->roomMsg = array();
         $this->chat = array();
         $this->rooms = Rooms::latest()->get();
+    }
+
+    // Delete single message
+    public function deleteMsg($msgId, $userId, $roomId) {
+        if ($roomId) {
+            $msg = Chats::find($msgId);
+            $room = Rooms::find($roomId);
+            if ($room->Authority == $userId) {
+                $msg->delete();
+                $this->roomMsg = Chats::where("roomId", "=", $roomId)->get();
+            }
+        }
     }
 
     // Logout

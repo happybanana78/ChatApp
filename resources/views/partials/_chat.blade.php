@@ -22,8 +22,10 @@ class="absolute pop-bg w-full left-0 right-0 top-0 h-screen"></div>
                             <p class="cursor-pointer bg-blue-500 py-1
                             px-3 rounded-lg w-full" 
                             wire:click="joinRoom({{auth()->user()->id}}, {{$room->id}})"
-                            x-on:click="chat = false, popBg = false, scroll2()">{{$room->name}}</p>
+                            x-on:click="chat = false, popBg = false, scroll2(),
+                            document.getElementById('body').classList.remove('hide-scroll')">{{$room->name}}</p>
                             <form wire:submit.prevent="deleteRoom({{$room->id}})" method="POST">
+                                @csrf
                                 <button type="submit" class="px-3 py-1 text-white bg-red-500
                                 rounded-lg hover:bg-red-600">
                                     <i class="fa-solid fa-trash"></i></button>
@@ -39,7 +41,8 @@ class="absolute pop-bg w-full left-0 right-0 top-0 h-screen"></div>
                 x-on:click="createRoom1 = !createRoom1, createRoom2 = !createRoom2">Create New Room</button>
             </div>
             <div class="container w-1/2 px-10" x-show="createRoom2">
-                <form wire:submit.prevent="createRoom" method="POST" class="flex flex-col
+                <form wire:submit.prevent="createRoom({{auth()->user()->id}})" 
+                method="POST" class="flex flex-col
                 justify-center items-center space-y-3">
                     @csrf
                     @error('roomName')
