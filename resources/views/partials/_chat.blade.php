@@ -2,7 +2,7 @@
 x-on:click="chat = false, popBg = false,
 document.getElementById('body').classList.remove('hide-scroll')" 
 class="absolute pop-bg w-full left-0 right-0 top-0 h-screen"></div>
-<div class="absolute top-0 w-full top-40">
+<div class="absolute w-full top-40">
     <div class="container relative left-1/2 -translate-x-1/2 w-1/2 h-1/3 rounded-lg bg-slate-900
     p-5" x-show="chat" x-cloak>
         <div class="text-4xl text-right">
@@ -24,7 +24,8 @@ class="absolute pop-bg w-full left-0 right-0 top-0 h-screen"></div>
                             wire:click="joinRoom({{auth()->user()->id}}, {{$room->id}})"
                             x-on:click="chat = false, popBg = false, scroll2(),
                             document.getElementById('body').classList.remove('hide-scroll')">{{$room->name}}</p>
-                            <form wire:submit.prevent="deleteRoom({{$room->id}})" method="POST">
+                            <form wire:submit.prevent="deleteRoom({{$room->id}}, {{auth()->user()->id}})" 
+                                method="POST">
                                 @csrf
                                 <button type="submit" class="px-3 py-1 text-white bg-red-500
                                 rounded-lg hover:bg-red-600">

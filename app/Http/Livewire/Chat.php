@@ -76,33 +76,46 @@ class Chat extends Component
     // Join chat room
     public function joinRoom($userId, $roomId) {
         $user = User::find($userId);
-        $user->groups = $roomId;
-        $user->update();
         $group = Rooms::find($roomId);
-        $group->users = $group->users . "," . $userId;
-        $group->update();
-        $this->isActive = true;
-        $this->roomStatus = true;
-        $this->roomMsg = Chats::where("roomId", "=", $roomId)->get();
+        $roomUsers = explode(",", $group->users);
+        $userCounter = count($roomUsers);
+        if (!(($userCounter + 1) > $group->capacity)) {
+            $user->groups = $roomId;
+            $user->update();
+            if (!in_array($userId, $roomUsers)) {
+                if (is_null($group->users)) {
+                    $group->users = $userId;
+                    $group->update();
+                } else {
+                    $group->users = $group->users . "," . $userId;
+                    $group->update();
+                }
+            }
+            $this->isActive = true;
+            $this->roomStatus = true;
+            $this->roomMsg = Chats::where("roomId", "=", $roomId)->get();
+        }
     }
 
     // Delete chat room
-    public function deleteRoom($id) {
-        $room = Rooms::find($id);
-        $room->delete();
-        $users = User::all();
-        foreach ($users as $user) {
-            if ($user->groups == $id) {
-                $user->groups = null;
-                $this->isActive = false;
+    public function deleteRoom($roomId, $userId) {
+        $room = Rooms::find($roomId);
+        if ($room->Authority == $userId) {
+            $room->delete();
+            $users = User::all();
+            foreach ($users as $user) {
+                if ($user->groups == $roomId) {
+                    $user->groups = null;
+                    $this->isActive = false;
+                }
             }
+            $user->update();
+            $chat = Chats::where("roomId", "=", $roomId);
+            $chat->delete();
+            $this->roomMsg = array();
+            $this->chat = array();
+            $this->rooms = Rooms::latest()->get();
         }
-        $user->update();
-        $chat = Chats::where("roomId", "=", $id);
-        $chat->delete();
-        $this->roomMsg = array();
-        $this->chat = array();
-        $this->rooms = Rooms::latest()->get();
     }
 
     // Delete single message
