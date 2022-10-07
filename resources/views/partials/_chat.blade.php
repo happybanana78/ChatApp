@@ -1,5 +1,5 @@
 <div x-show="popBg" x-cloak 
-x-on:click="chat = false, popBg = false,
+x-on:click="chat = false, popBg = false, settings = false,
 document.getElementById('body').classList.remove('hide-scroll')" 
 class="absolute pop-bg w-full left-0 right-0 top-0 h-screen"></div>
 <div class="absolute w-full top-40">

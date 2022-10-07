@@ -6,7 +6,8 @@
         document.getElementById('body').classList.add('hide-scroll')">
             <i class="fa-solid fa-comments mr-3"></i>Chat</a>
         <a class="hover:text-blue-500 cursor-pointer"
-        x-on:click="popBg = !popBg, settings = !settings">
+        x-on:click="popBg = !popBg, settings = !settings,
+        document.getElementById('body').classList.add('hide-scroll')">
             <i class="fa-solid fa-gear mr-3"></i>Settings</a>
         <form action="/logout" method="POST">
             @csrf
