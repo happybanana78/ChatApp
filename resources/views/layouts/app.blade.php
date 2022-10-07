@@ -22,7 +22,8 @@
                     colors: {
                         white: "white",
                         light: "#E2DFD2",
-                        gold: "gold"
+                        gold: "gold",
+                        black: "black"
                     },
                 },
             },

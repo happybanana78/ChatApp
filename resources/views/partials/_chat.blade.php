@@ -22,7 +22,7 @@ class="absolute pop-bg w-full left-0 right-0 top-0 h-screen"></div>
                             <p class="cursor-pointer bg-blue-500 py-1
                             px-3 rounded-lg w-full" 
                             wire:click="joinRoom({{auth()->user()->id}}, {{$room->id}})"
-                            x-on:click="chat = false, popBg = false, scroll2(),
+                            x-on:click="chat = false, popBg = false,
                             document.getElementById('body').classList.remove('hide-scroll')">{{$room->name}}</p>
                             <form wire:submit.prevent="deleteRoom({{$room->id}}, {{auth()->user()->id}})" 
                                 method="POST">

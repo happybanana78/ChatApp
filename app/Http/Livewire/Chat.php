@@ -12,7 +12,6 @@ class Chat extends Component
 
     // Chat room proprieties
     public $entry;
-    public $chat;
     public $isActive;
     public $roomMsg;
     public $roomStatus;
@@ -27,7 +26,6 @@ class Chat extends Component
 
     public function __construct()
     {
-        $this->chat = array();
         $this->rooms = Rooms::latest()->get();
         $this->isActive = false;
         $this->roomStatus = false;
@@ -36,7 +34,11 @@ class Chat extends Component
     // Show new chat entry on screen
     public function newEntry($userId) {
         if (!empty($this->entry)) {
-            array_push($this->chat, $this->entry);
+            if (str_contains($this->entry, "http")) {
+                $urlPattern = '/(http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?/';   
+                $this->entry = preg_replace($urlPattern, 
+                '<a class="text-blue-500" href="$0" target="_blank">$0</a>', $this->entry);
+            }
             $user = User::find($userId);
             Chats::create([
                 "message" => $this->entry,
@@ -93,7 +95,6 @@ class Chat extends Component
             }
             $this->isActive = true;
             $this->roomStatus = true;
-            $this->roomMsg = Chats::where("roomId", "=", $roomId)->get();
         }
     }
 
