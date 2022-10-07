@@ -6,9 +6,12 @@ use App\Models\Rooms;
 use App\Models\User;
 use App\Models\Chats;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class Chat extends Component
 {
+
+    use WithFileUploads;
 
     // Chat room proprieties
     public $entry;
@@ -23,6 +26,8 @@ class Chat extends Component
 
     // User proprieties
     public $userName;
+    public $newUsername;
+    public $userAvatar;
 
     public function __construct()
     {
@@ -163,6 +168,23 @@ class Chat extends Component
                 $this->roomMsg = Chats::where("roomId", "=", $roomId)->get();
             }
         }
+    }
+
+    // Edit username
+    public function editUsername($userId) {
+        $user = User::find($userId);
+        $data = $this->validate([
+            "newUsername" => "required|unique:users,username"
+        ]);
+        $user->username = $this->newUsername;
+        $user->update();
+    }
+
+    // Change user profile avatar
+    public function changeAvatar($userId) {
+        $data = $this->validate([
+                    "userAvatar" => "required|max:5000"
+                ]);
     }
 
     // Logout
