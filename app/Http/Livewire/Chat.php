@@ -39,6 +39,40 @@ class Chat extends Component
                 $this->entry = preg_replace($urlPattern, 
                 '<a class="text-blue-500" href="$0" target="_blank">$0</a>', $this->entry);
             }
+            switch ($this->entry) {
+                case str_contains($this->entry, ":)"):
+                    $this->entry = str_replace(":)", "&#128512;", $this->entry);
+                    break;
+                case str_contains($this->entry, ":D"):
+                    $this->entry = str_replace(":D", "&#128513;", $this->entry);
+                    break;
+                case str_contains($this->entry, ":')"):
+                    $this->entry = str_replace(":')", "&#128514;", $this->entry);
+                    break;
+                case str_contains($this->entry, "^^"):
+                    $this->entry = str_replace("^^", "&#128516;", $this->entry);
+                    break;
+                case str_contains($this->entry, "><"):
+                    $this->entry = str_replace("><", "&#128518;", $this->entry);
+                    break;
+                case str_contains($this->entry, ";)"):
+                    $this->entry = str_replace(";)", "&#128521;", $this->entry);
+                    break;
+                case str_contains($this->entry, ":P"):
+                    $this->entry = str_replace(":P", "&#128540;", $this->entry);
+                    break;
+                case str_contains($this->entry, ":("):
+                    $this->entry = str_replace(":(", "&#128543;", $this->entry);
+                    break;
+                case str_contains($this->entry, ":'("):
+                    $this->entry = str_replace(":'(", "&#128546;", $this->entry);
+                    break;
+                case str_contains($this->entry, "zzzz"):
+                    $this->entry = str_replace("zzzz", "&#128564;", $this->entry);
+                    break;
+                default:
+                    break;
+            }
             $user = User::find($userId);
             Chats::create([
                 "message" => $this->entry,
