@@ -34,6 +34,7 @@ class Chat extends Component
         $this->rooms = Rooms::latest()->get();
         $this->isActive = false;
         $this->roomStatus = false;
+        $this->roomMsg = array();
     }
 
     // Show new chat entry on screen
@@ -108,10 +109,7 @@ class Chat extends Component
 
     // Live update of the chat room
     public function updateMsg($roomId) {
-        if ($roomId != 0) {
-        $this->roomMsg = array();
         $this->roomMsg = Chats::where("roomId", "=", $roomId)->orderBy("id")->get();
-        }
     }
 
     // Join chat room

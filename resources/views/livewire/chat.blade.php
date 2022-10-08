@@ -47,20 +47,11 @@
 @include('partials._settings')
 <div class="container rounded-lg mx-auto lg:p-20 p-5 w-full bg-slate-900 md:mt-52 z-0 relative
 sm:mt-72 mt-52">
-    @php
-        // Prevent error when user logs in with no room id aggigned yet
-        $group = 0;
-    @endphp
     @if (!is_null(auth()->user()->groups))
-        @php
-            $group = auth()->user()->groups;
-        @endphp
-    @endif
-    <div wire:poll.750ms.keep-alive="updateMsg({{$group}})" id="chatBox" 
+    <div wire:poll.750ms.keep-alive="updateMsg({{auth()->user()->groups}})" id="chatBox" 
         class="container mx-auto w-full p-5 pr-10 lg:h-56 h-80 bg-white rounded-lg
         overflow-y-auto overflow-x-hidden text-xl flex flex-col-reverse">
         <div class="flex flex-col">
-        @if (!is_null(auth()->user()->groups))
             @if ($roomStatus)
                 @foreach ($roomMsg as $msg)
                     <div class="flex justify-between">
@@ -76,9 +67,16 @@ sm:mt-72 mt-52">
                     </div>
                 @endforeach
             @endif
-        @endif
-                </div>
+        </div>
     </div>
+    @endif
+    <!-- User visual if no group is joined -->
+    @if (is_null(auth()->user()->groups))
+    <div class="container mx-auto w-full p-5 pr-10 lg:h-56 h-80 bg-white rounded-lg
+    overflow-y-auto overflow-x-hidden text-xl flex flex-col-reverse">
+        <div class="flex flex-col"></div>
+    </div>
+    @endif
     <form wire:submit.prevent="newEntry({{auth()->user()->id}})" 
         class="flex" method="POST">
         @csrf

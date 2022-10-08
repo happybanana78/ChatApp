@@ -56,11 +56,12 @@ class="absolute pop-bg w-full left-0 right-0 top-0 h-screen z-30"></div>
                         <h2 class="text-red-500">{{$message}}</h2>
                     </div>
                     @enderror
-                    <div class="flex lg:flex-row flex-col lg:space-x-3 space-y-3">
+                    <div class="flex lg:flex-row flex-col lg:space-x-3 space-y-3
+                     lg:justify-center lg:space-y-0">
                         <input class="w-full px-3 py-1 rounded-lg 
                         lg:text-xl text-sm" type="text"
                         placeholder="Room Name" wire:model="roomName">
-                        <input class="w-full px-3 py-1 rounded-lg 
+                        <input class="w-full lg:w-1/2 px-3 py-1 rounded-lg 
                         lg:text-xl text-sm" type="number"
                         wire:model="roomCapacity" placeholder="N#">
                     </div>
