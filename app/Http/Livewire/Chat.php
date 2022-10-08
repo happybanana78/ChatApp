@@ -182,9 +182,15 @@ class Chat extends Component
 
     // Change user profile avatar
     public function changeAvatar($userId) {
+        //dd($this->userAvatar);
         $data = $this->validate([
-                    "userAvatar" => "required|max:5000"
+                    "userAvatar" => "file|max:1024",
                 ]);
+        $this->userAvatar->storeAs("public/photos", $userId . ".png");
+        $user = User::find($userId);
+        $user->avatar = "/storage/photos/" . $userId . ".png";
+        $user->update();
+        $this->userAvatarPath = "/storage/photos/" . $userId . ".png";
     }
 
     // Logout

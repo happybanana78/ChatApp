@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string("groups")->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string("avatar")->default("/images/avatar.png");
             $table->rememberToken();
             $table->timestamps();
         });

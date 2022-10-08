@@ -1,4 +1,4 @@
-<div  x-cloak x-data="{userEdit: false}"
+<div x-show="settings" x-cloak x-data="{userEdit: false}"
 class="absolute top-40 w-full px-80 h-1/2">
     <div class="p-5 container mx-auto h-full bg-slate-900 rounded-lg">
         <div class="text-4xl text-right">
@@ -9,16 +9,16 @@ class="absolute top-40 w-full px-80 h-1/2">
         </div>
         <div class="flex items-center justify-center p-5 relative max-h-full">
             <div class="flex flex-col relative items-center space-y-5 w-1/4 p-3">
-                <div class="container bg-blue-500 rounded-full w-3/4">
-                    <img src="{{asset("images/avatar.png")}}" class="w-full cursor-pointer"
+                <div class="container bg-blue-500 rounded-full w-3/4" wire:poll>
+                    <img src="{{auth()->user()->avatar}}" class="w-full cursor-pointer"
                     onclick="document.getElementById('avatarFile').click()">
                 </div>
                 <form wire:submit.prevent="changeAvatar({{auth()->user()->id}})"
                     method="POST" class="hidden" id="avatarForm">
                     @csrf
-                    <input id="avatarFile" type="file" wire:model="userAvatar"
-                    onchange="document.getElementById('avatarBtn').click()">
-                    <button id="avatarBtn"></button>
+                    <input wire:model="userAvatar" id="avatarFile" type="file"
+                    onchange="setTimeout(function () {document.getElementById('avatarBtn').click()}, 2000)">
+                    <button type="submit" id="avatarBtn"></button>
                 </form>
                 <div class="text-center text-2xl text-white flex space-x-3">
                     <b>{{auth()->user()->username}}</b>
