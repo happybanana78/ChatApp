@@ -1,15 +1,16 @@
 <div x-show="settings" x-cloak x-data="{userEdit: false}"
-class="absolute top-40 w-full px-80 h-1/2">
+class="absolute top-40 w-full lg:px-80 h-1/2 z-30">
     <div class="p-5 container mx-auto h-full bg-slate-900 rounded-lg">
-        <div class="text-4xl text-right">
+        <div class="text-4xl text-right hidden lg:block">
             <a class="cursor-pointer text-light" 
             x-on:click="settings = false, popBg = false,
             document.getElementById('body').classList.remove('hide-scroll')">
                 <i class="fa-solid fa-xmark"></i></a>
         </div>
-        <div class="flex items-center justify-center p-5 relative max-h-full">
+        <div class="flex items-center justify-center lg:p-5 relative max-h-full
+        mt-14 lg:mt-0">
             <div class="flex flex-col relative items-center space-y-5 w-1/4 p-3">
-                <div class="container bg-blue-500 rounded-full w-3/4" wire:poll>
+                <div class="container bg-blue-500 rounded-full  w-40">
                     <img src="{{auth()->user()->avatar}}" class="w-full cursor-pointer"
                     onclick="document.getElementById('avatarFile').click()">
                 </div>

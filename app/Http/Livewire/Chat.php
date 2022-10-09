@@ -176,6 +176,7 @@ class Chat extends Component
         ]);
         $user->username = $this->newUsername;
         $user->update();
+        $this->newUsername = "";
     }
 
     // Change user profile avatar
